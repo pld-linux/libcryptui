@@ -5,7 +5,7 @@
 Summary:	Interface components for OpenPGP
 Name:		libcryptui
 Version:	3.6.0
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://download.gnome.org/sources/libcryptui/3.6/%{name}-%{version}.tar.xz
@@ -99,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %ghost %{_libdir}/libcryptui.so.0
 %{_datadir}/cryptui
 %{_datadir}/dbus-1/services/org.gnome.seahorse.service
-%{_pixmapsdir}/cryptui/*/seahorse-*.*
+%{_pixmapsdir}/cryptui
 %{_libdir}/girepository-1.0/CryptUI-0.0.typelib
 %{_datadir}/GConf/gsettings/org.gnome.seahorse.recipients.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.seahorse.recipients.gschema.xml
