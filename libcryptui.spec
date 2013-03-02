@@ -1,3 +1,7 @@
+#
+# Conditional build:
+%bcond_without	apidocs		# do not build and package API docs
+
 Summary:	Interface components for OpenPGP
 Name:		libcryptui
 Version:	3.6.0
@@ -24,14 +28,35 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 libcryptui is a library used for prompting for PGP keys.
 
+%description -l pl.UTF-8
+Biblioteka libcryptui.
+
 %package devel
 Summary:	Header files required to develop with libcryptui
-Group:		Development/Libraries
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libcryptui
+Group:		X11/Development/Libraries
+Requires:	GConf2-devel >= 2.24.0
+Requires:	gtk+3-devel >= 2.91.7
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 The libcryptui-devel package contains the header files and developer
 documentation for the libcryptui library.
+
+%description devel -l pl.UTF-8
+Ten pakiet zawiera pliki nagłówkowe biblioteki libcryptui.
+
+%package apidocs
+Summary:	libcryptui library API documentation
+Summary(pl.UTF-8):	Dokumentacja API biblioteki libcryptui
+Group:		Documentation
+Requires:	gtk-doc-common
+
+%description apidocs
+libcryptui library API documentation.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki libcryptui.
 
 %prep
 %setup -q
@@ -39,6 +64,7 @@ documentation for the libcryptui library.
 %build
 %configure \
 	--disable-silent-rules \
+	--disable-static \
 	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
@@ -49,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libcryptui.la
 
-%find_lang cryptui --with-gnome --all-name
+%find_lang cryptui --with-gnome --with-omf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,5 +109,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/%{name}/
 %{_datadir}/gir-1.0/CryptUI-0.0.gir
 
-# apidocs
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
 %{_gtkdocdir}/%{name}
+%endif
