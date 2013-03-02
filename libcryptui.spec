@@ -12,14 +12,16 @@ Source0:	http://download.gnome.org/sources/libcryptui/3.6/%{name}-%{version}.tar
 # Source0-md5:	817b4c51e0d067429e976b0db1e758ae
 URL:		http://projects.gnome.org/seahorse/
 BuildRequires:	dbus-glib-devel
-BuildRequires:	gnome-doc-utils
+BuildRequires:	gettext-devel
 BuildRequires:	gobject-introspection-devel
 BuildRequires:	gpgme-devel
 BuildRequires:	gtk+3-devel
+BuildRequires:	gtk-doc
 BuildRequires:	intltool
 BuildRequires:	libgnome-keyring-devel
 BuildRequires:	libnotify-devel
 BuildRequires:	libtool
+BuildRequires:	pkgconfig
 BuildRequires:	xorg-lib-libSM-devel
 Requires:	glib2 >= 1:2.26.0
 Requires(post,postun):	/sbin/ldconfig
@@ -35,9 +37,9 @@ Biblioteka libcryptui.
 Summary:	Header files required to develop with libcryptui
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libcryptui
 Group:		X11/Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 Requires:	GConf2-devel >= 2.24.0
 Requires:	gtk+3-devel >= 2.91.7
-Requires:	%{name} = %{version}-%{release}
 
 %description devel
 The libcryptui-devel package contains the header files and developer
