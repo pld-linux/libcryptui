@@ -1,8 +1,10 @@
 #
 # Conditional build:
 %bcond_without	apidocs		# do not build and package API docs
+%bcond_without	static_libs	# static library
 
 Summary:	Interface components for OpenPGP
+Summary(pl.UTF-8):	Elementy interfejsu dla OpenPGP
 Name:		libcryptui
 Version:	3.6.0
 Release:	2
@@ -11,42 +13,62 @@ Group:		Libraries
 Source0:	http://download.gnome.org/sources/libcryptui/3.6/%{name}-%{version}.tar.xz
 # Source0-md5:	817b4c51e0d067429e976b0db1e758ae
 URL:		http://projects.gnome.org/seahorse/
-BuildRequires:	dbus-glib-devel
+BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gettext-devel
-BuildRequires:	gobject-introspection-devel
-BuildRequires:	gpgme-devel
-BuildRequires:	gtk+3-devel
-BuildRequires:	gtk-doc
-BuildRequires:	intltool
-BuildRequires:	libgnome-keyring-devel
-BuildRequires:	libnotify-devel
+BuildRequires:	glib2-devel >= 1:2.32.0
+BuildRequires:	gobject-introspection-devel >= 0.6.4
+BuildRequires:	gpgme-devel >= 1.0.0
+BuildRequires:	gtk+3-devel >= 3.0.0
+BuildRequires:	gtk-doc >= 1.9
+BuildRequires:	intltool >= 0.35.0
+BuildRequires:	libgnome-keyring-devel >= 2.25.5
+BuildRequires:	libnotify-devel >= 0.3
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
-Requires:	glib2 >= 1:2.26.0
 Requires(post,postun):	/sbin/ldconfig
+Requires:	dbus-glib >= 0.35
+Requires:	glib2 >= 1:2.32.0
+Requires:	gpgme >= 1.0.0
+Requires:	gtk+3 >= 3.0.0
+Requires:	libgnome-keyring >= 2.25.5
+Requires:	libnotify >= 0.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 libcryptui is a library used for prompting for PGP keys.
 
 %description -l pl.UTF-8
-Biblioteka libcryptui.
+libcryptui to biblioteka używana przy zapytaniach o klucze PGP.
 
 %package devel
 Summary:	Header files required to develop with libcryptui
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libcryptui
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	GConf2-devel >= 2.24.0
+Requires:	dbus-glib >= 0.35
+Requires:	glib2-devel >= 1:2.32.0
 Requires:	gtk+3-devel >= 2.91.7
 
 %description devel
-The libcryptui-devel package contains the header files and developer
-documentation for the libcryptui library.
+The libcryptui-devel package contains the header files for the
+libcryptui library.
 
 %description devel -l pl.UTF-8
 Ten pakiet zawiera pliki nagłówkowe biblioteki libcryptui.
+
+%package static
+Summary:	Static libcryptui library
+Summary(pl.UTF-8):	Statyczna biblioteka libcryptui
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static libcryptui library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka libcryptui.
 
 %package apidocs
 Summary:	libcryptui library API documentation
@@ -66,7 +88,7 @@ Dokumentacja API biblioteki libcryptui.
 %build
 %configure \
 	--disable-silent-rules \
-	--disable-static \
+	%{!?with_static_libs:--disable-static} \
 	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
@@ -77,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libcryptui.la
 
-%find_lang cryptui --with-gnome --with-omf
+%find_lang cryptui
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -92,24 +114,30 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f cryptui.lang
 %defattr(644,root,root,755)
-%doc AUTHORS  NEWS README
+%doc AUTHORS ChangeLog MAINTAINERS NEWS README
 %attr(755,root,root) %{_bindir}/seahorse-daemon
-%{_mandir}/man1/seahorse-daemon.1*
 %attr(755,root,root) %{_libdir}/libcryptui.so.*.*.*
-%ghost %{_libdir}/libcryptui.so.0
-%{_datadir}/cryptui
-%{_datadir}/dbus-1/services/org.gnome.seahorse.service
-%{_pixmapsdir}/cryptui
+%attr(755,root,root) %ghost %{_libdir}/libcryptui.so.0
 %{_libdir}/girepository-1.0/CryptUI-0.0.typelib
+%{_datadir}/cryptui
 %{_datadir}/GConf/gsettings/org.gnome.seahorse.recipients.convert
+%{_datadir}/dbus-1/services/org.gnome.seahorse.service
 %{_datadir}/glib-2.0/schemas/org.gnome.seahorse.recipients.gschema.xml
+%{_pixmapsdir}/cryptui
+%{_mandir}/man1/seahorse-daemon.1*
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/libcryptui.so
-%{_pkgconfigdir}/cryptui-0.0.pc
-%{_includedir}/%{name}/
+%attr(755,root,root) %{_libdir}/libcryptui.so
+%{_includedir}/%{name}
 %{_datadir}/gir-1.0/CryptUI-0.0.gir
+%{_pkgconfigdir}/cryptui-0.0.pc
+
+%if %{with static_libs}
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libcryptui.a
+%endif
 
 %if %{with apidocs}
 %files apidocs
