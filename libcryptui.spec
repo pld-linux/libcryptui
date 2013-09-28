@@ -6,12 +6,12 @@
 Summary:	Interface components for OpenPGP
 Summary(pl.UTF-8):	Elementy interfejsu dla OpenPGP
 Name:		libcryptui
-Version:	3.8.0
+Version:	3.10.0
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libcryptui/3.8/%{name}-%{version}.tar.xz
-# Source0-md5:	cb76ee124166b120555bb1f836544b00
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libcryptui/3.10/%{name}-%{version}.tar.xz
+# Source0-md5:	240a093afe8c2110bd6e104b7d3b1954
 URL:		http://projects.gnome.org/seahorse/
 BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gettext-devel
