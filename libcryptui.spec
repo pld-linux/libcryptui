@@ -7,7 +7,7 @@ Summary:	Interface components for OpenPGP
 Summary(pl.UTF-8):	Elementy interfejsu dla OpenPGP
 Name:		libcryptui
 Version:	3.10.1
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libcryptui/3.10/%{name}-%{version}.tar.xz
