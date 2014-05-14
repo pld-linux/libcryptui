@@ -6,16 +6,19 @@
 Summary:	Interface components for OpenPGP
 Summary(pl.UTF-8):	Elementy interfejsu dla OpenPGP
 Name:		libcryptui
-Version:	3.10.1
-Release:	5
+Version:	3.12.2
+Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/libcryptui/3.10/%{name}-%{version}.tar.xz
-# Source0-md5:	409924734b60006fc96b34e4c3ee5ead
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/libcryptui/3.12/%{name}-%{version}.tar.xz
+# Source0-md5:	da0ca49a8854e33aecce949f62def9d7
 URL:		http://projects.gnome.org/seahorse/
+BuildRequires:	autoconf >= 2.52
+BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.35
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.32.0
+BuildRequires:	gnupg
 BuildRequires:	gobject-introspection-devel >= 0.6.4
 BuildRequires:	gpgme-devel >= 1.0.0
 BuildRequires:	gtk+3-devel >= 3.0.0
@@ -25,8 +28,10 @@ BuildRequires:	libgnome-keyring-devel >= 2.25.5
 BuildRequires:	libnotify-devel >= 0.3
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
+BuildRequires:	xz
 Requires(post,postun):	/sbin/ldconfig
 Requires:	dbus-glib >= 0.35
 Requires:	glib2 >= 1:2.32.0
@@ -49,7 +54,7 @@ Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	dbus-glib >= 0.35
 Requires:	glib2-devel >= 1:2.32.0
-Requires:	gtk+3-devel >= 2.91.7
+Requires:	gtk+3-devel >= 3.0.0
 
 %description devel
 The libcryptui-devel package contains the header files for the
@@ -89,6 +94,12 @@ Dokumentacja API biblioteki libcryptui.
 %setup -q
 
 %build
+%{__intltoolize}
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	--disable-silent-rules \
 	%{!?with_static_libs:--disable-static} \
