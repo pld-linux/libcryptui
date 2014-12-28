@@ -16,7 +16,7 @@ URL:		http://projects.gnome.org/seahorse/
 BuildRequires:	autoconf >= 2.52
 BuildRequires:	automake
 BuildRequires:	dbus-glib-devel >= 0.35
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.32.0
 BuildRequires:	gnupg
 BuildRequires:	gobject-introspection-devel >= 0.6.4
