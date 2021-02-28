@@ -80,9 +80,7 @@ Summary:	libcryptui library API documentation
 Summary(pl.UTF-8):	Dokumentacja API biblioteki libcryptui
 Group:		Documentation
 Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
-%endif
 
 %description apidocs
 libcryptui library API documentation.
